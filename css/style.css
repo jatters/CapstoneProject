@@ -1,0 +1,211 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Monoton&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+:root{	
+	--black: #000;
+    --white: #fff;
+}
+html{
+    background:var(--black);
+    color: var(--white);
+	font-size: 62.5%;
+    font-family: 'Monoton', cursive;
+    font-family: 'Montserrat', sans-serif;   
+}
+h2{
+    font-size: 3rem;
+}
+p{
+    font-size: 1.6rem;
+}
+li{
+    font-size: 2rem;
+}
+.content .header{
+    display: flex;
+    background: center / cover no-repeat url("/img/header-main.jpg");   
+    
+    height: 60vh;
+    width: 100%;
+}
+.content .header .logo{
+    width: 20%;
+}
+.content .header .logo svg{    
+    fill: var(--white);
+    height: auto;
+    margin: 3rem 4rem;
+    width: 20rem;
+}
+.content .header .nav{
+    margin: 3rem 0;
+    width: 70%;
+}
+.content .header .nav ul{
+    align-items: center;
+    column-gap: 5%;
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;    
+}
+.content .header .nav ul li a{
+    color: var(--white);
+    font-weight: 700;
+    text-decoration: none;
+}
+.content .header .nav ul li a svg{
+    fill: var(--white);
+    height: 4rem;
+    width: 4rem;
+}
+.content section{
+    margin: 4rem;
+}
+.content .api-data,.content .form-row{
+    align-items: center;
+    column-gap: 3rem;
+    display: flex;       
+}
+.content .api-data div#picture-of-day, .content .api-data div.description,.content .form-row div{
+    width: 50%;
+}
+.content .api-data #favorite-button{
+    background: transparent;
+    border: none;
+    color: var(--white);
+    margin: 10px 0 0 -60px;;
+    font-size: 5rem;
+    position: absolute;
+}
+.content .api-data #favorite-button:hover{
+    color: red;
+}
+.content .form-row div .form{
+    display: flex;
+    width: 100%;
+}
+.content .form-row div .form .input-date{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+.content .form-row div .form .input-date input{
+    background-color: var(--black);
+    border: 2px solid var(--white);
+    color: var(--white);
+    font-size: 3.5rem;
+    height: 15rem;
+    margin: 2rem 0 1.5rem 0;
+    text-align: center;
+    width: 10rem;
+}
+.content .form-row div .form .input-date label{
+    font-size: 2.8rem;
+    font-weight: 500;
+}
+.content .form-row .form-info button{    
+    background-color: var(--white);
+    border-radius: 0.5rem;
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 700;    
+    margin: 3rem auto;
+    padding: 1.5rem 2rem;
+}
+.content .form-row .form-info button:hover{
+    background-color: var(--black);
+    border: 1px solid var(--white);
+    color: var(--white);
+}
+.content .form-row div.video{
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.content .form-row div.video iframe{
+    min-height: 350px;
+}
+.video span{
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 2rem 0;
+    text-decoration: underline;
+}
+.content .api-data div#picture-of-day img{
+    height: auto;
+    width: 100%;
+} 
+.content .api-data div#picture-of-day img:hover{
+    cursor:pointer;
+}
+.content .api-data div.description div{
+    margin: 2rem 0;
+}
+.content .api-data div.description #pic-title{
+    font-size: 3rem;
+    font-weight: 700;
+}
+.content .api-data div.description #pic-date{
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+.content .api-data div.description #pic-description{
+    font-size: 1.6rem;
+    line-height: 2.5rem;
+}
+.content #gallery{
+    column-gap: 1.5rem;    
+    display: flex;    
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0;
+    row-gap: 1.5rem;
+    width: 100%;
+}
+.content #gallery .image-container{
+    display: flex;
+    width: 20%;
+}
+.content #gallery .image-container button{
+    background: transparent;
+    border: none;
+    color: var(--black);
+    font-size: 3rem;
+    font-weight: 700;
+    height: 3.5rem;
+    position: relative;
+    right: 3.5rem;
+    width: 3.5rem;
+}
+.content #gallery .image-container button:hover{
+    color: var(--white);
+}
+.content #gallery .image-container img{
+    height: auto;
+    width: 100%;
+}
+.content .footer-nav{
+    margin: 3rem 0;
+}
+.content .footer-nav ul{
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+}
+.content .footer-nav ul a, .content .footer-nav ul li:nth-child(1){
+    color: var(--white);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 900px){
+    .content .api-data,.content .form-row{
+        flex-wrap: wrap;
+    }
+    .content .api-data div#picture-of-day, .content .api-data div.description,.content .form-row div{
+        width: 100%;
+    }
+    .content .header .nav{
+        display: none;
+    }
+}

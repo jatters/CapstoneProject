@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            var today = new Date();
+            var year = today.getFullYear();
+            var month = today.getMonth() + 1;
+            var day = today.getDate();
+            var dateString = year + '-' + month.toString().padStart(2, '0') + '-' + day.toString().padStart(2, '0');
+
+            
+            $.getJSON('https://api.nasa.gov/planetary/apod', {date: dateString, api_key: 'G9Ib2ZjpuklRm20mh5UMD5bdX6GmZeSwdsyN8bZJ'}, function(data) {
+                
+                $('#pic-img').attr('src', data.url);
+                $('#pic-title').text(data.title);
+                $('#pic-date').text(data.date);
+                $('#pic-description').text(data.explanation);
+            });
+            
+            document.getElementById('search-btn').addEventListener('click', function() {
+                
+                var day = $('#day').val();
+                var month = $('#month').val();
+                var year = $('#year').val();
+
+                
+                var dateString = year + '-' + month.padStart(2, '0') + '-' + day.padStart(2, '0');
+
+                
+                $.getJSON('https://api.nasa.gov/planetary/apod', {date: dateString, api_key: 'G9Ib2ZjpuklRm20mh5UMD5bdX6GmZeSwdsyN8bZJ'}, function(data) {
+                
+                    $('#pic-img').attr('src', data.url);
+                    $('#pic-title').text(data.title);
+                    $('#pic-date').text(data.date);
+                    $('#pic-description').text(data.explanation);
+                });               
+            });
+            document.getElementById('pic-img').addEventListener('click', function() {
+                window.open($(this).attr('src'), '_blank');
+            });   
+            
+            document.getElementById('favorite-button').addEventListener('click', function() {
+            var favoriteImages = JSON.parse(localStorage.getItem('favoriteImages')) || [];
+            favoriteImages.push($('#pic-img').attr('src'));
+            localStorage.setItem('favoriteImages', JSON.stringify(favoriteImages));
+            showFavoriteImages();
+            });
+
+            function showFavoriteImages() {
+                var favoriteImages = JSON.parse(localStorage.getItem('favoriteImages')) || [];
+                var gallery = $('#gallery');
+                gallery.empty();
+                for (var i = 0; i < favoriteImages.length; i++) {
+                    var img = $('<img>').attr('src', favoriteImages[i]);
+                    var deleteBtn = $('<button>').text('X');
+                    deleteBtn.data('index', i); 
+                    var imgContainer = $('<div>').addClass('image-container');
+                    imgContainer.append(img, deleteBtn);
+                    gallery.append(imgContainer);
+                }
+                gallery.on('click', 'button', function() {
+                    var index = $(this).data('index');
+                    favoriteImages.splice(index, 1);
+                    localStorage.setItem('favoriteImages', JSON.stringify(favoriteImages));
+                    showFavoriteImages(); 
+                });
+            };
+        });
+	</script>
+    <title>Capstone Project</title>
+</head>
+<body>
+    <div class="content">
+        <div class="header">
+            <div class="logo">
+                <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 187.09 52.13">   <path class="cls-1" d="M99.54,50.85h25.67c3.84,0,6.98-1.57,9.54-4.72,2.46-3.05,3.74-6.69,3.74-10.82,0-8.36-10.72-14.26-14.85-14.26h-14.07c-1.08,0-1.97-.49-2.66-1.28-.69-.89-1.08-1.87-1.08-3.05,0-1.38,.39-2.56,1.08-3.54,.79-.98,1.77-1.57,2.95-1.57h26.36V1.08h-26.85c-4.82,0-8.56,1.48-11.21,4.33-2.36,2.66-3.54,6.2-3.54,10.43s1.18,7.77,3.54,10.72c2.66,3.25,5.8,4.92,9.64,4.92h16.23c.98,0,1.77,.3,2.36,1.08,.69,.79,.98,1.77,.98,2.85,0,1.28-.49,2.46-1.28,3.44-.89,.89-1.87,1.38-3.15,1.38h-25.97l-.39-.69-9.74-31.28-.49-.98C84,2.46,80.07,.1,74.66,.1c-2.95,0-5.61,.69-7.97,2.16-2.46,1.48-4.03,3.64-4.92,6.39l-13.08,42.1,11.9,.1,12-37.48c.3-1.18,.98-1.77,1.87-1.77,.49,0,.89,.2,1.18,.49,.3,.39,.49,.79,.59,1.28l12.1,37.48h11.21Z"/>   <path class="cls-1" d="M11.02,16.43V50.76H0V12.69C0,7.77,1.18,4.33,3.74,2.26,5.71,.79,8.66,0,12.79,0c3.34,0,6.2,.98,8.75,2.85,2.56,1.87,4.23,4.43,5.11,7.57l7.18,25.28,1.18,3.44c.1,.69,.49,1.18,.89,1.57,.49,.39,.98,.59,1.57,.39,.98-.1,1.48-.69,1.48-1.57V1.18h11.31V39.05c0,4.23-.98,7.38-3.05,9.64-1.97,2.26-4.92,3.44-8.85,3.44-3.44,0-6.3-.69-8.56-1.87-2.75-1.38-4.52-3.54-5.31-6.39L16.23,15.05l-.59-1.87c-.2-.69-.59-1.18-1.08-1.67-.49-.39-1.08-.49-1.67-.39-.59,.1-.98,.39-1.38,.98-.3,.49-.49,1.08-.49,1.77v2.56h0Z"/>   <path class="cls-1" d="M187.09,50.85l-12.79-42.59-.49-.98c-2.36-4.82-6.3-7.18-11.71-7.18-2.95,0-5.61,.69-7.97,2.16-2.46,1.48-4.03,3.64-4.92,6.39l-13.08,42.1,11.9,.1,12-37.48c.3-1.18,.98-1.77,1.87-1.77,.49,0,.89,.2,1.18,.49,.3,.39,.49,.79,.59,1.28l12.1,37.48h11.31Z"/> </svg>
+            </div>
+            <div class="nav">
+                <ul>
+                    <li><a href=#>Home</a></li>
+                    <li><a href=#>Gallery</a></li>
+                    <li><a href=#>Blog</a></li>
+                    <li><a href=#>Contact</a></li>
+                    <li><a href=#>Sing Up</a></li>
+                    <li><a href="#"><svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 473.9 471.07">   <path d="M122.15,114.81C122.15,51.5,173.64,0,236.95,0s114.8,51.51,114.8,114.81-51.49,114.8-114.8,114.8c-63.31,0-114.8-51.5-114.8-114.8h0Zm195.3,130.65h-4.71c-22.29,12.98-48.18,20.44-75.79,20.44s-53.5-7.45-75.79-20.43h-4.72C70.17,245.47,0,315.65,0,401.91v53.29c0,8.75,7.12,15.87,15.88,15.87H458.02c8.75,0,15.88-7.12,15.88-15.88v-53.29c0-86.27-70.18-156.45-156.45-156.45h0Z"/> </svg></a></li>
+                </ul>
+            </div>           
+        </div>        
+        <section class="api-data">
+            <div id="picture-of-day">
+                <img id="pic-img" alt="NASAen  Picture of the Day">
+                <button id="favorite-button">♡</button>
+            </div>
+            <div class="description">
+                <div id="pic-title"></div>
+                <div id="pic-date"></div>
+                <div id="pic-description"></div>                
+            </div>
+        </section>
+        <section class="form-row">
+            <div class="form-info">
+                <h2>Picture of the Day by NASA</h2>
+                <p>Search on NASA’s database for any picture or video from any date since April of 1999, when NASA Earth Observatory was created</p>
+                <div class="form">
+                    <div class="input-date">
+                        <input type="number" id="month" name="month" min="1" max="12">
+                        <label for="month">Month</label>
+                    </div>
+                    <div class="input-date">
+                        <input type="number" id="day" name="day" min="1" max="31">
+                        <label for="day">Day</label>
+                    </div>
+                    <div class="input-date">
+                        <input type="number" id="year" name="year" min="1999" max="2023">
+                        <label for="year">Year</label>
+                    </div>                    
+                </div>
+                <button id="search-btn">Search a date</button>
+            </div>
+            <div class="video">
+                <iframe width="100%" height="auto" src="https://www.youtube.com/embed/Sv3eXRN7hLo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <span class="video-title">133 Days on the Sun</span>
+            </div>
+        </section>
+        <section id="gallery">
+
+        </section>
+        <div class="footer-nav">
+            <ul>
+                <li>NASA @ 2023</li>
+                <li><a href="https://twitter.com/NASA" target="_blank">Twitter</a></li>
+                <li><a href="https://www.instagram.com/nasa/" target="_blank">Instagram</a></li>
+                <li><a href="https://www.nasa.gov/about/highlights/HP_Privacy.html" target="_blank">Privacy Policy</a></li>
+                <li><a href="#">Subscribe to Our Newsletter</a></li>
+                <li><a href="#">Contact NASA</a></li>
+            </ul>
+        </div>
+    </div>   
+</body>
+</html>
