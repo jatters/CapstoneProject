@@ -22,7 +22,7 @@ li{
 }
 .content .header{
     display: flex;
-    background: center / cover no-repeat url("/img/header-main.jpg");   
+    background: center / cover no-repeat url("../img/header-main.jpg");   
     
     height: 60vh;
     width: 100%;
