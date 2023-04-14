@@ -8,13 +8,13 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
-        document.addEventListener('DOMContentLoaded', function() {
+       document.addEventListener('DOMContentLoaded', function() {
             
-            var today = new Date();
-            var year = today.getFullYear();
-            var month = today.getMonth() + 1;
-            var day = today.getDate();
-            var dateString = year + '-' + month.toString().padStart(2, '0') + '-' + day.toString().padStart(2, '0');
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = today.getMonth() + 1;
+            const day = today.getDate();
+            const dateString = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
 
             
             $.getJSON('https://api.nasa.gov/planetary/apod', {date: dateString, api_key: 'G9Ib2ZjpuklRm20mh5UMD5bdX6GmZeSwdsyN8bZJ'}, function(data) {
@@ -25,14 +25,15 @@
                 $('#pic-description').text(data.explanation);
             });
             
-            document.getElementById('search-btn').addEventListener('click', function() {
+            const searchBtn = document.getElementById('search-btn');
+            searchBtn.addEventListener('click', function() {
                 
-                var day = $('#day').val();
-                var month = $('#month').val();
-                var year = $('#year').val();
+                const day = $('#day').val();
+                const month = $('#month').val();
+                const year = $('#year').val();
 
                 
-                var dateString = year + '-' + month.padStart(2, '0') + '-' + day.padStart(2, '0');
+                const dateString = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
 
                 
                 $.getJSON('https://api.nasa.gov/planetary/apod', {date: dateString, api_key: 'G9Ib2ZjpuklRm20mh5UMD5bdX6GmZeSwdsyN8bZJ'}, function(data) {
@@ -43,37 +44,40 @@
                     $('#pic-description').text(data.explanation);
                 });               
             });
-            document.getElementById('pic-img').addEventListener('click', function() {
+            const picImg = document.getElementById('pic-img');
+            picImg.addEventListener('click', function() {
                 window.open($(this).attr('src'), '_blank');
             });   
             
-            document.getElementById('favorite-button').addEventListener('click', function() {
-            var favoriteImages = JSON.parse(localStorage.getItem('favoriteImages')) || [];
-            favoriteImages.push($('#pic-img').attr('src'));
-            localStorage.setItem('favoriteImages', JSON.stringify(favoriteImages));
-            showFavoriteImages();
+            const favoriteButton = document.getElementById('favorite-button');
+            favoriteButton.addEventListener('click', function() {
+                const favoriteImages = JSON.parse(localStorage.getItem('favoriteImages')) || [];
+                favoriteImages.push($('#pic-img').attr('src'));
+                localStorage.setItem('favoriteImages', JSON.stringify(favoriteImages));
+                showFavoriteImages();
             });
 
             function showFavoriteImages() {
-                var favoriteImages = JSON.parse(localStorage.getItem('favoriteImages')) || [];
-                var gallery = $('#gallery');
+                const favoriteImages = JSON.parse(localStorage.getItem('favoriteImages')) || [];
+                const gallery = $('#gallery');
                 gallery.empty();
-                for (var i = 0; i < favoriteImages.length; i++) {
-                    var img = $('<img>').attr('src', favoriteImages[i]);
-                    var deleteBtn = $('<button>').text('X');
+                for (let i = 0; i < favoriteImages.length; i++) {
+                    const img = $('<img>').attr('src', favoriteImages[i]);
+                    const deleteBtn = $('<button>').text('X');
                     deleteBtn.data('index', i); 
-                    var imgContainer = $('<div>').addClass('image-container');
+                    const imgContainer = $('<div>').addClass('image-container');
                     imgContainer.append(img, deleteBtn);
                     gallery.append(imgContainer);
                 }
                 gallery.on('click', 'button', function() {
-                    var index = $(this).data('index');
+                    const index = $(this).data('index');
                     favoriteImages.splice(index, 1);
                     localStorage.setItem('favoriteImages', JSON.stringify(favoriteImages));
                     showFavoriteImages(); 
                 });
             };
         });
+
 	</script>
     <title>Capstone Project</title>
 </head>
